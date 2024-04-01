@@ -25,6 +25,8 @@ def get_ip_information(ip_address, access_token):
     }
 
 def is_private(ip_address):
+    if ":" in ip_address:
+        return False
     parts = ip_address.split(".")
     first_part = int(parts[0])
     
