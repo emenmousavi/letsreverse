@@ -1,6 +1,5 @@
 import socket
 import ipinfo
-from colorama import Fore, Style
 from tabulate import tabulate
 
 def get_reverse_dns(ip_address):
