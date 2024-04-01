@@ -1,4 +1,5 @@
-# IP Information Lookup
+# IP Information Lookup 
+![Header](./your-header-image-name.png)
 
 This Python script allows you to retrieve detailed information about an IPv4 or IPv6 address, including reverse DNS, ISP, country, region, and whether it's a private IP.
 
@@ -8,4 +9,3 @@ Before running the script, you need to install the required Python libraries. Yo
 
 ```bash
 pip install ipinfo colorama tabulate
-
