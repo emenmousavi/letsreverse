@@ -1,6 +1,7 @@
 import socket
 import ipinfo
 from colorama import Fore, Style
+from tabulate import tabulate
 
 def get_reverse_dns(ip_address):
     try:
@@ -9,31 +10,43 @@ def get_reverse_dns(ip_address):
     except socket.herror:
         return "Reverse DNS not found"
 
-def get_ip_information(ip_address):
-    access_token = '35d39df4e68fec'
+def get_ip_information(ip_address, access_token):
     handler = ipinfo.getHandler(access_token)
     details = handler.getDetails(ip_address)
     
-    is_private_ip = ip_address.startswith(('10.', '172.', '192.168.'))
+    is_private_ip = is_private(ip_address)
     
     return {
+        'Reverse DNS': get_reverse_dns(ip_address),
         'ISP': details.org,
         'Country': details.country_name,
         'Region': details.region,
-        'Private IP': is_private_ip
+        'Is it private IP?': is_private_ip
     }
 
+def is_private(ip_address):
+    parts = ip_address.split(".")
+    first_part = int(parts[0])
+    
+    if first_part == 10:
+        return True
+    elif first_part == 172 and 16 <= int(parts[1]) <= 31:
+        return True
+    elif first_part == 192 and int(parts[1]) == 168:
+        return True
+    else:
+        return False
+    
 def main():
+    access_token = input("Please enter your IPinfo API access token: ")
     ip_address = input("Enter an IPv4 or IPv6 address: ")
 
-    reverse_dns = get_reverse_dns(ip_address)
-    print(f"{Fore.CYAN}Reverse DNS:{Style.RESET_ALL} {reverse_dns}")
+    ip_info = get_ip_information(ip_address, access_token)
+    table_data = []
+    for key, value in ip_info.items():
+        table_data.append([key, value])
 
-    ip_info = get_ip_information(ip_address)
-    print(f"{Fore.MAGENTA}ISP:{Style.RESET_ALL} {ip_info['ISP']}")
-    print(f"{Fore.CYAN}Country:{Style.RESET_ALL} {ip_info['Country']}")
-    print(f"{Fore.MAGENTA}Region:{Style.RESET_ALL} {ip_info['Region']}")
-    print(f"{Fore.CYAN}Is it private IP?:{Style.RESET_ALL} {ip_info['Private IP']}")
+    print(tabulate(table_data, headers=["Attribute", "Value"]))
 
 if __name__ == "__main__":
     main()
