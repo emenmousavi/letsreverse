@@ -10,3 +10,6 @@ Before running the script, you need to install the required Python libraries. Yo
 
 ```bash
 pip install ipinfo colorama tabulate
+
+## Note
+You need to have IPinfo API Access key to run this program
