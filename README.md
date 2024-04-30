@@ -13,4 +13,4 @@ pip install ipinfo colorama tabulate
 ```
 
 ## Note
-You need to have IPinfo API Access key to run this program
+You need to have **IPinfo** API Access key to run this program
